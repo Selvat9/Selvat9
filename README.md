@@ -28,6 +28,8 @@
 Natural language personal finance tracking — no app, no subscription.  
 Send a plain Telegram message. An LLM classifies the intent. Google Sheets gets updated automatically.
 
+![Telegram Budget Bot](https://media.licdn.com/dms/image/v2/D562DAQEyWQ8U3EkEvw/profile-treasury-image-shrink_800_800/B56ZysjBRmIIAY-/0/1772421391078?e=1773028800&v=beta&t=OBDjZNyWNBLySImltD13D8poYnl77ajCJMzoP_DOPiM)
+
 | | |
 |---|---|
 | **Stack** | n8n · Groq · Telegram API · Google Sheets |
