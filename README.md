@@ -3,7 +3,7 @@
 <p align="center">
   Senior .NET Developer &nbsp;·&nbsp; Dublin, OH &nbsp;·&nbsp;
   <a href="https://www.linkedin.com/in/selvat9/">LinkedIn</a> &nbsp;·&nbsp;
-  <a href="https://selvat9.github.io">Portfolio</a>
+  <a href="https://selvat9.github.io/selvat9/">Portfolio</a>
 </p>
 
 ---
@@ -48,6 +48,6 @@ Send a plain Telegram message. An LLM classifies the intent. Google Sheets gets 
 ---
 
 <p align="center">
-  <a href="https://selvat9.github.io">Portfolio</a> &nbsp;·&nbsp;
+  <a href="https://selvat9.github.io/selvat9">Portfolio</a> &nbsp;·&nbsp;
   <a href="https://www.linkedin.com/in/selvat9/">LinkedIn</a>
 </p>
