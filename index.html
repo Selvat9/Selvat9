@@ -1,627 +1,637 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Selvasekaran P — Senior .NET Developer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg:        #080d14;
-      --surface:   #0e1622;
-      --surface2:  #141e2e;
-      --border:    rgba(255,255,255,.07);
-      --border2:   rgba(255,255,255,.12);
-      --teal:      #00d4b8;
-      --teal-dim:  rgba(0,212,184,.12);
-      --teal-glow: rgba(0,212,184,.25);
-      --amber:     #f5a623;
-      --text:      #e8edf5;
-      --muted:     #7a8aa0;
-      --mono:      'DM Mono', monospace;
-      --sans:      'DM Sans', sans-serif;
-      --serif:     'Fraunces', serif;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    a { color: inherit; text-decoration: none; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selvasekaran Periathambi | Senior .NET Developer</title>
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        // Framer Motion UMD export is often 'Motion'
+        window.FramerMotion = window.Motion || window.FramerMotion;
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --primary: #10b981;
+            --bg-dark: #09090b;
+        }
 
-    body::before {
-      content: ''; position: fixed; inset: 0; z-index: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; opacity: .5;
-    }
-    body::after {
-      content: ''; position: fixed; inset: 0; z-index: 0;
-      background-image: linear-gradient(rgba(0,212,184,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,184,.03) 1px, transparent 1px);
-      background-size: 48px 48px; pointer-events: none;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+        body {
+            background-color: var(--bg-dark);
+            color: #a1a1aa;
+            font-family: 'Inter', sans-serif;
+        }
 
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; border-bottom: 1px solid var(--border); backdrop-filter: blur(20px); background: rgba(8,13,20,.8); }
-    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-    .nav-logo { font-family: var(--mono); font-size: .85rem; color: var(--teal); letter-spacing: .08em; }
-    .nav-logo span { color: var(--muted); }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a { font-size: .8rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); transition: color .2s; }
-    .nav-links a:hover { color: var(--teal); }
+        .text-gradient {
+            background: linear-gradient(to bottom right, #fff 30%, rgba(255,255,255,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    /* HERO */
-    .hero { padding: 160px 0 100px; position: relative; overflow: hidden; }
-    .hero-orb { position: absolute; top: -120px; right: -180px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,212,184,.15) 0%, transparent 70%); pointer-events: none; animation: orb-drift 8s ease-in-out infinite alternate; }
-    @keyframes orb-drift { from { transform: translate(0,0) scale(1); } to { transform: translate(-30px,40px) scale(1.05); } }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+        }
 
-    .hero-tag { font-family: var(--mono); font-size: .75rem; color: var(--teal); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 20px; opacity: 0; animation: fade-up .6s .2s ease forwards; }
-    .hero-tag::before { content: '▶ '; opacity: .5; }
-    .hero h1 { font-family: var(--serif); font-size: clamp(3rem,6vw,5.5rem); font-weight: 300; line-height: 1.05; letter-spacing: -.02em; margin-bottom: 8px; opacity: 0; animation: fade-up .7s .35s ease forwards; }
-    .hero h1 em { font-style: italic; font-weight: 600; color: var(--teal); }
-    .hero-sub { font-size: 1.15rem; color: var(--muted); font-weight: 300; margin-bottom: 40px; opacity: 0; animation: fade-up .7s .5s ease forwards; }
+        .section-padding {
+            padding: 5rem 1.5rem;
+            max-width: 80rem;
+            margin: 0 auto;
+        }
 
-    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
-    .badge { font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; padding: 5px 12px; border: 1px solid var(--border2); border-radius: 4px; color: var(--muted); background: var(--surface); transition: all .2s; opacity: 0; transform: translateY(12px); animation: badge-in .4s ease forwards; }
-    @keyframes badge-in { to { opacity: 1; transform: translateY(0); } }
-    .badge:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
-    .badge.highlight { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
+        .bg-primary { background-color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .border-primary { border-color: var(--primary); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    </style>
 
-    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; animation: fade-up .7s 1.3s ease forwards; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; font-size: .85rem; font-weight: 500; letter-spacing: .05em; border-radius: 6px; transition: all .2s; cursor: pointer; }
-    .btn-primary { background: var(--teal); color: var(--bg); }
-    .btn-primary:hover { background: #00f0d0; box-shadow: 0 0 30px var(--teal-glow); }
-    .btn-ghost { border: 1px solid var(--border2); color: var(--text); background: transparent; }
-    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
-
-    /* STATS */
-    .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); padding: 28px 0; }
-    .stats-bar .wrap { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
-    .stat { text-align: center; padding: 0 16px; border-right: 1px solid var(--border); opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .5s; }
-    .stat:last-child { border-right: none; }
-    .stat.visible { opacity: 1; transform: translateY(0); }
-    .stat-num { font-family: var(--serif); font-size: 2.5rem; font-weight: 700; color: var(--teal); line-height: 1; margin-bottom: 6px; }
-    .stat-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
-
-    /* SECTIONS */
-    section { padding: 96px 0; }
-    .section-tag { font-family: var(--mono); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; opacity: 0; transform: translateX(-20px); transition: opacity .5s, transform .5s; }
-    .section-tag.visible { opacity: 1; transform: translateX(0); }
-    .section-title { font-family: var(--serif); font-size: clamp(2rem,4vw,3rem); font-weight: 300; line-height: 1.1; margin-bottom: 48px; opacity: 0; transform: translateY(20px); transition: opacity .5s .1s, transform .5s .1s; }
-    .section-title.visible { opacity: 1; transform: translateY(0); }
-    .section-title em { font-style: italic; font-weight: 600; color: var(--teal); }
-
-    /* ABOUT */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-    .about-text p { color: var(--muted); line-height: 1.8; font-size: .95rem; margin-bottom: 16px; }
-    .about-text p strong { color: var(--text); font-weight: 500; }
-    .about-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; position: relative; overflow: hidden; }
-    .about-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--teal), transparent); }
-    .card-label { font-family: var(--mono); font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
-    .location-line { display: flex; align-items: center; gap: 10px; font-size: .9rem; color: var(--muted); margin-bottom: 10px; }
-    .location-line svg { color: var(--teal); flex-shrink: 0; }
-
-    /* SKILLS */
-    .skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-    .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; opacity: 0; transform: translateY(30px); transition: opacity .5s, transform .5s, border-color .25s; position: relative; overflow: hidden; }
-    .skill-group::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--teal); transform: scaleY(0); transform-origin: top; transition: transform .35s ease; border-radius: 3px 0 0 3px; }
-    .skill-group:hover::before { transform: scaleY(1); }
-    .skill-group.visible { opacity: 1; transform: translateY(0); }
-    .skill-group:hover { border-color: var(--border2); background: var(--surface2); }
-    .skill-group.ai-group { border-color: rgba(0,212,184,.2); background: rgba(0,212,184,.03); }
-    .skill-group.ai-group::before { background: var(--amber); }
-    .skill-group-title { font-family: var(--mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-    .skill-group.ai-group .skill-group-title { color: var(--amber); }
-    .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-    .skill-pill { font-size: .78rem; padding: 4px 10px; border-radius: 4px; background: rgba(255,255,255,.04); color: var(--text); border: 1px solid var(--border); transition: all .2s; opacity: 0; transform: scale(.92); }
-    .skill-group.visible .skill-pill { animation: pill-pop .3s ease forwards; }
-    @keyframes pill-pop { to { opacity: 1; transform: scale(1); } }
-    .skill-pill:hover { background: var(--teal-dim); border-color: var(--teal); color: var(--teal); }
-    .skill-group.ai-group .skill-pill:hover { background: rgba(245,166,35,.1); border-color: var(--amber); color: var(--amber); }
-
-    /* EXPERIENCE */
-    .timeline { position: relative; padding-left: 36px; }
-    .timeline-track { position: absolute; left: 5px; top: 8px; bottom: 0; width: 1px; background: var(--border); overflow: hidden; }
-    .timeline-track::after { content: ''; position: absolute; left: 0; top: 0; right: 0; height: 0%; background: linear-gradient(to bottom, var(--teal), rgba(0,212,184,.15)); transition: height 1.6s cubic-bezier(.4,0,.2,1); }
-    .timeline-track.animate::after { height: 100%; }
-
-    .timeline-item { position: relative; margin-bottom: 52px; opacity: 0; transform: translateX(-18px); transition: opacity .5s, transform .5s; }
-    .timeline-item:last-child { margin-bottom: 0; }
-    .timeline-item.visible { opacity: 1; transform: translateX(0); }
-
-    .timeline-dot { position: absolute; left: -42px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border2); transition: border-color .3s, box-shadow .3s; z-index: 1; }
-    .timeline-item.visible .timeline-dot { border-color: var(--teal); animation: dot-pulse 1s .3s ease-out forwards; }
-    @keyframes dot-pulse {
-      0%   { box-shadow: 0 0 0 0 var(--teal-glow); }
-      50%  { box-shadow: 0 0 0 8px rgba(0,212,184,0); }
-      100% { box-shadow: 0 0 10px var(--teal-glow); }
-    }
-
-    .timeline-meta { font-family: var(--mono); font-size: .68rem; color: var(--teal); letter-spacing: .1em; margin-bottom: 4px; }
-    .timeline-role { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
-    .timeline-company { font-size: .875rem; color: var(--muted); margin-bottom: 10px; }
-
-    .role-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-    .role-tag { font-family: var(--mono); font-size: .62rem; letter-spacing: .07em; padding: 3px 9px; border-radius: 100px; border: 1px solid var(--border2); color: var(--muted); background: var(--surface2); }
-    .role-tag.accent { border-color: rgba(0,212,184,.3); color: var(--teal); background: var(--teal-dim); }
-
-    .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-    .timeline-bullets li { font-size: .875rem; color: var(--muted); padding-left: 18px; position: relative; line-height: 1.6; }
-    .timeline-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--teal); opacity: .5; }
-    .timeline-bullets li .verb { font-weight: 700; color: var(--text); }
-    .timeline-bullets li strong { color: var(--text); font-weight: 500; }
-
-    /* PROJECT */
-    .project-feature { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; min-height: 420px; opacity: 0; transform: translateY(30px); transition: opacity .6s, transform .6s; }
-    .project-feature.visible { opacity: 1; transform: translateY(0); }
-    .project-feature:hover { border-color: var(--border2); }
-    .project-info { padding: 48px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-    .project-info::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 1px; background: var(--border); }
-    .project-type { font-family: var(--mono); font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
-    .project-name { font-family: var(--serif); font-size: 2rem; font-weight: 600; line-height: 1.1; margin-bottom: 12px; }
-    .project-emoji { font-size: 1.4rem; margin-right: 8px; }
-    .project-desc { font-size: .9rem; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
-    .project-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
-    .stack-chip { font-family: var(--mono); font-size: .68rem; padding: 4px 10px; border-radius: 100px; background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.3); color: var(--amber); letter-spacing: .05em; }
-    .project-visual { padding: 40px 40px 40px 36px; background: var(--surface2); display: flex; flex-direction: column; justify-content: center; gap: 12px; }
-    .highlight-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 8px; background: rgba(255,255,255,.02); border: 1px solid var(--border); border-left: 2px solid transparent; font-size: .82rem; line-height: 1.5; color: var(--muted); opacity: 0; transform: translateX(16px); transition: all .25s; }
-    .highlight-item.visible { animation: slide-in .45s ease forwards; }
-    .highlight-item:hover { background: rgba(0,212,184,.04); border-color: rgba(0,212,184,.2); border-left-color: var(--teal); color: var(--text); }
-    .hi-emoji { font-size: .95rem; flex-shrink: 0; margin-top: 2px; }
-    .hi-text strong { color: var(--text); font-weight: 500; }
-    @keyframes slide-in { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
-
-    /* CONTACT */
-    .contact-section { background: var(--surface); border-top: 1px solid var(--border); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-    .contact-links { display: flex; flex-direction: column; gap: 12px; }
-    .contact-link { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; transition: all .2s; font-size: .9rem; color: var(--muted); }
-    .contact-link:hover { border-color: var(--teal); color: var(--text); background: var(--teal-dim); transform: translateX(6px); }
-    .contact-link svg { color: var(--teal); flex-shrink: 0; }
-    .contact-link span { font-size: .8rem; color: var(--muted); margin-left: auto; }
-
-    /* FOOTER */
-    footer { border-top: 1px solid var(--border); padding: 28px 0; text-align: center; }
-    footer p { font-family: var(--mono); font-size: .7rem; color: var(--muted); letter-spacing: .08em; }
-    footer p span { color: var(--teal); }
-
-    @keyframes fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--teal); }
-
-    @media (max-width: 860px) {
-      .about-grid, .project-feature, .contact-grid { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-      .stats-bar .wrap { grid-template-columns: repeat(2,1fr); }
-      .stat:nth-child(2) { border-right: none; }
-      .stat:nth-child(3) { border-right: 1px solid var(--border); }
-      .project-info::after { display: none; }
-      .nav-links { display: none; }
-      .hero { padding: 120px 0 80px; }
-    }
-    @media (max-width: 560px) {
-      .skills-grid { grid-template-columns: 1fr; }
-      .stats-bar .wrap { grid-template-columns: repeat(2,1fr); }
-    }
-  </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                        'bg-dark': '#09090b',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body>
+    <div id="root"></div>
 
-  <nav>
-    <div class="wrap">
-      <div class="nav-logo">SP<span>://</span>dev</div>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { motion, AnimatePresence } = FramerMotion;
 
-  <section class="hero">
-    <div class="hero-orb"></div>
-    <div class="wrap">
-      <p class="hero-tag">Senior .NET Developer &nbsp;·&nbsp; Dublin, OH</p>
-      <h1>Selvasekaran<br><em>Periathambi</em></h1>
-      <p class="hero-sub">14 years engineering scalable enterprise systems.</p>
-      <div class="hero-badges">
-        <span class="badge highlight">.NET / C#</span>
-        <span class="badge highlight">Microservices</span>
-        <span class="badge highlight">Azure Cloud</span>
-        <span class="badge">Angular</span>
-        <span class="badge">CI/CD</span>
-        <span class="badge">SQL / Oracle</span>
-        <span class="badge">OKTA</span>
-        <span class="badge">RabbitMQ</span>
-        <span class="badge">n8n · LLM Automation</span>
-      </div>
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          View Projects
-        </a>
-        <a href="#contact" class="btn btn-ghost">Get in Touch →</a>
-      </div>
-    </div>
-  </section>
+        // --- Data ---
+        const TOP_SKILLS = [
+            { name: ".NET 8", level: 95 },
+            { name: "Microservices", level: 90 },
+            { name: "Azure Cloud", level: 85 },
+            { name: "Angular", level: 80 },
+            { name: "n8n / LLMs", level: 75 }
+        ];
 
-  <div class="stats-bar">
-    <div class="wrap">
-      <div class="stat"><div class="stat-num" data-target="14" data-suffix="+">0</div><div class="stat-label">Years Experience</div></div>
-      <div class="stat"><div class="stat-num" data-target="5" data-suffix="">0</div><div class="stat-label">Companies</div></div>
-      <div class="stat"><div class="stat-num" data-target="50" data-suffix="%">0</div><div class="stat-label">Performance Gains</div></div>
-      <div class="stat"><div class="stat-num" data-target="80" data-suffix="%">0</div><div class="stat-label">Auth Risk Reduction</div></div>
-    </div>
-  </div>
+        const EXPERIENCES = [
+            {
+                role: "Senior .NET Developer",
+                company: "Accion Labs",
+                period: "Sep 2018 – Present",
+                tags: ["Lead", "Architecture", "Cloud"],
+                description: [
+                    "**Architected** REST APIs with **Ocelot API Gateway** across microservices, improving system efficiency by **20%**.",
+                    "**Eliminated** suspicious logins by **80%** by integrating **OKTA (Auth0)** end-to-end authentication.",
+                    "**Optimized** application performance by **50%** through **SOLID principles** and established **Design Patterns**.",
+                    "**Designed** **Azure Cloud** microservices deployment pipelines using **Azure Pipelines CI/CD**.",
+                    "**Automated** PDF generation for **Angular** pages via **Playwright**, replacing manual export workflow.",
+                    "**Resolved** all production incidents as primary contact — **zero downtime**, **100% accuracy**."
+                ]
+            },
+            {
+                role: "Associate",
+                company: "Cognizant Technology Solutions",
+                period: "Sep 2014 – Sep 2018",
+                tags: ["Team Lead", "Web Portals"],
+                description: [
+                    "**Delivered** all user stories at **100% success rate** on every milestone using **MVC** and **SQL**.",
+                    "**Led** a **6-member team** building **REST APIs** and **OOP-driven** web portal components.",
+                    "**Enforced** **NUnit** testing framework across the codebase, significantly cutting regression defects."
+                ]
+            },
+            {
+                role: "Senior Software Analyst",
+                company: "Bally Technologies",
+                period: "Mar 2014 – Sep 2014",
+                tags: ["Integration", "POC"],
+                description: [
+                    "**Reduced** hardware integration time by **30%** delivering POCs for **Bill Acceptor** integration.",
+                    "**Increased** test efficiency by **40%** by championing **SpecFlow BDD** framework adoption."
+                ]
+            },
+            {
+                role: "Module Lead",
+                company: "Mindtree Ltd",
+                period: "Oct 2011 – Mar 2014",
+                tags: ["Module Lead", "Enterprise"],
+                description: [
+                    "**Spearheaded** delivery of **8 business-critical modules** in **C# .NET** and **Entity Framework**.",
+                    "**Coordinated** on-site and offshore teams for seamless **CI/CD deployments** via **SSIS**, **MVC**, **SQL**."
+                ]
+            },
+            {
+                role: "Programmer Analyst",
+                company: "Adiva Systems Pvt Ltd",
+                period: "Sep 2009 – Oct 2011",
+                tags: ["Full Stack", "Legacy"],
+                description: [
+                    "**Built** core UI modules with **jQuery** and **AJAX**, improving dynamic data management responsiveness.",
+                    "**Maintained** live and archive database integrity via **RESTful APIs** and **SQL**."
+                ]
+            }
+        ];
 
-  <section id="about">
-    <div class="wrap">
-      <p class="section-tag observe">Profile</p>
-      <h2 class="section-title observe">Building systems that <em>scale</em></h2>
-      <div class="about-grid">
-        <div class="about-text observe" style="transition-delay:.1s">
-          <p>Experienced software professional specialising in <strong>.NET enterprise architecture</strong>, microservices design, and cloud-native solutions on Azure. My work focuses on delivering reliable, high-performance systems that teams can own and evolve.</p>
-          <p>I bring a strong foundation in <strong>SOLID principles and design patterns</strong>, combined with hands-on expertise in API gateways, CI/CD automation, authentication, and data pipelines. Beyond full-time engineering, I build personal automation tools exploring the intersection of <strong>LLMs and everyday workflows</strong>.</p>
-          <p>Currently based in Dublin, OH — open to opportunities in enterprise .NET, cloud architecture, and AI-assisted tooling.</p>
-        </div>
-        <div class="observe" style="transition-delay:.2s">
-          <div class="about-card">
-            <p class="card-label">// Quick Info</p>
-            <div class="location-line">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Dublin, OH · USA
+        const SKILL_CATEGORIES = [
+            {
+                title: "Backend & Core",
+                description: "Architecting robust server-side logic and high-performance distributed systems.",
+                icon: "cpu",
+                skills: [".NET 8", "C#", "Web API", "Microservices", "ActiveMQ", "Ocelot", "REST", "SOLID", "Design Patterns"]
+            },
+            {
+                title: "Frontend & UI",
+                description: "Crafting responsive, user-centric interfaces with modern web technologies.",
+                icon: "globe",
+                skills: ["Angular", "TypeScript", "Tailwind CSS", "jQuery", "AJAX", "Responsive Design", "Playwright"]
+            },
+            {
+                title: "Data & Cloud",
+                description: "Managing complex data lifecycles and scalable cloud infrastructure.",
+                icon: "cloud",
+                skills: ["Azure", "Azure Service Bus", "SQL Server", "Redis", "Entity Framework", "Data Pipelines", "ETL"]
+            },
+            {
+                title: "DevOps & AI",
+                description: "Automating workflows and integrating intelligent LLM capabilities.",
+                icon: "layers",
+                skills: ["Docker", "Kubernetes", "Azure Pipelines", "GitHub Actions", "n8n", "Groq LLM"]
+            }
+        ];
+
+        // --- Components ---
+        const Icon = ({ name, className }) => {
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [name]);
+            return <i data-lucide={name} className={className}></i>;
+        };
+
+        const SectionHeader = ({ title, subtitle }) => (
+            <div className="mb-12">
+                <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-3xl md:text-4xl font-bold mb-4 text-white"
+                >
+                    {title}
+                </motion.h2>
+                {subtitle && (
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="text-zinc-500 max-w-2xl"
+                    >
+                        {subtitle}
+                    </motion.p>
+                )}
             </div>
-            <div class="location-line">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-              Senior .NET Developer · Accion Labs
-            </div>
-            <div class="location-line">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              14 years in enterprise .NET
-            </div>
-            <div class="location-line">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Angular · Azure · Microservices
-            </div>
-            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-              <p class="card-label">// Education</p>
-              <!-- CHANGE 1: Condensed to single line -->
-              <p style="font-size:.85rem;color:var(--muted)">BE Computer Science &nbsp;·&nbsp; <strong style="color:var(--text)">2009</strong></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        );
 
-  <!-- CHANGE 2: Automation & AI first, 6 groups total -->
-  <section id="skills" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-    <div class="wrap">
-      <p class="section-tag observe">Expertise</p>
-      <h2 class="section-title observe">Technical <em>Stack</em></h2>
-      <div class="skills-grid">
+        function App() {
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, []);
 
-        <div class="skill-group ai-group observe" style="transition-delay:.05s">
-          <p class="skill-group-title">// Automation &amp; AI</p>
-          <div class="skill-pills">
-            <span class="skill-pill">n8n</span>
-            <span class="skill-pill">Groq API</span>
-            <span class="skill-pill">LLM Integration</span>
-            <span class="skill-pill">llama-3.3-70b</span>
-            <span class="skill-pill">compound-beta</span>
-            <span class="skill-pill">Telegram API</span>
-            <span class="skill-pill">Google Sheets API</span>
-            <span class="skill-pill">Workflow Automation</span>
-          </div>
-        </div>
+            return (
+                <div className="min-h-screen">
+                    {/* Navigation */}
+                    <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-[#09090b]/80 backdrop-blur-xl">
+                        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+                            <div className="font-mono font-bold text-white text-lg tracking-tighter">
+                                SELVA<span className="text-primary">.DEV</span>
+                            </div>
+                            <div className="hidden md:flex gap-8 text-sm font-medium">
+                                {[
+                                    { name: 'About', href: '#about' },
+                                    { name: 'Skills', href: '#skills' },
+                                    { name: 'Experience', href: '#experience' },
+                                    { name: 'Projects', href: '#projects' }
+                                ].map((item) => (
+                                    <a 
+                                        key={item.name}
+                                        href={item.href} 
+                                        className="hover:text-white transition-colors"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            const element = document.querySelector(item.href);
+                                            if (element) {
+                                                const offset = 80; // Header height + some padding
+                                                const elementPosition = element.getBoundingClientRect().top;
+                                                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                                                window.scrollTo({
+                                                    top: offsetPosition,
+                                                    behavior: 'smooth'
+                                                });
+                                            }
+                                        }}
+                                    >
+                                        {item.name}
+                                    </a>
+                                ))}
+                            </div>
+                            <a 
+                                href="mailto:selvat9@yahoo.com"
+                                className="px-4 py-2 bg-white text-black text-sm font-semibold rounded-full hover:bg-zinc-200 transition-colors"
+                            >
+                                Contact
+                            </a>
+                        </div>
+                    </nav>
 
-        <div class="skill-group observe" style="transition-delay:.1s">
-          <p class="skill-group-title">// Core Platform</p>
-          <div class="skill-pills">
-            <span class="skill-pill">.NET / .NET Core</span>
-            <span class="skill-pill">C#</span>
-            <span class="skill-pill">ASP.NET MVC</span>
-            <span class="skill-pill">Web API</span>
-            <span class="skill-pill">Entity Framework</span>
-            <span class="skill-pill">LINQ</span>
-          </div>
-        </div>
+                    <main>
+                        {/* Hero Section */}
+                        <section id="about" className="pt-32 pb-12 px-6 md:px-12 max-w-7xl mx-auto">
+                            <div className="grid lg:grid-cols-[1fr_400px] gap-12 items-center">
+                                <motion.div
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.6 }}
+                                >
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[10px] font-bold uppercase tracking-widest mb-6">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                        </span>
+                                        AVAILABLE FOR NEW OPPORTUNITIES
+                                    </div>
+                                    <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gradient leading-tight text-white">
+                                        Selvasekaran Periathambi
+                                    </h1>
+                                    <p className="text-xl md:text-2xl text-zinc-400 mb-8 max-w-2xl leading-relaxed">
+                                        Senior .NET Developer with <span className="text-white font-bold">14 years</span> of expertise in architecting high-scale enterprise systems. 
+                                        Specializing in <span className="text-white font-bold">Microservices</span>, <span className="text-white font-bold">Cloud Native</span>, and <span className="text-white font-bold">Angular</span>.
+                                    </p>
+                                    <p className="text-zinc-500 mb-8 max-w-2xl leading-relaxed">
+                                        My journey spans from legacy system modernization to building greenfield microservices on Azure. I am passionate about clean code, SOLID principles, and leveraging emerging technologies like LLMs to automate complex business workflows.
+                                    </p>
+                                    <div className="flex flex-wrap gap-4 mb-10">
+                                        <div className="flex items-center gap-2 text-zinc-500 text-sm">
+                                            <Icon name="briefcase" className="w-4 h-4" />
+                                            Senior .NET Developer
+                                        </div>
+                                        <div className="flex items-center gap-2 text-zinc-500 text-sm">
+                                            <Icon name="globe" className="w-4 h-4" />
+                                            Dublin, OH
+                                        </div>
+                                        <div className="flex items-center gap-2 text-zinc-500 text-sm">
+                                            <Icon name="mail" className="w-4 h-4" />
+                                            selvat9@yahoo.com
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap gap-4 items-center">
+                                        <div className="flex gap-4">
+                                            <a href="https://www.linkedin.com/in/selvat9" className="w-10 h-10 rounded-full flex items-center justify-center bg-zinc-900/50 border border-white/10 hover:border-primary/50 transition-all duration-300 group shadow-lg">
+                                                <Icon name="linkedin" className="w-5 h-5 text-zinc-400 group-hover:text-primary transition-colors" />
+                                            </a>
+                                            <a href="https://github.com/Selvat9" className="w-10 h-10 rounded-full flex items-center justify-center bg-zinc-900/50 border border-white/10 hover:border-primary/50 transition-all duration-300 group shadow-lg">
+                                                <Icon name="github" className="w-5 h-5 text-zinc-400 group-hover:text-primary transition-colors" />
+                                            </a>
+                                        </div>
+                                        <div className="w-px h-8 bg-white/10 mx-2 hidden sm:block" />
+                                        <a 
+                                            href="./resume.pdf" 
+                                            download="Selvasekaran_Resume.pdf"
+                                            className="flex items-center gap-2 px-5 py-2.5 bg-primary/10 border border-primary/20 text-primary rounded-full text-sm font-bold hover:bg-primary hover:text-black transition-all duration-300 group"
+                                        >
+                                            <Icon name="download" className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                                            Download Resume
+                                        </a>
+                                    </div>
+                                </motion.div>
 
-        <div class="skill-group observe" style="transition-delay:.15s">
-          <p class="skill-group-title">// Architecture</p>
-          <div class="skill-pills">
-            <span class="skill-pill">Microservices</span>
-            <span class="skill-pill">Ocelot API Gateway</span>
-            <span class="skill-pill">REST APIs</span>
-            <span class="skill-pill">Design Patterns</span>
-            <span class="skill-pill">SOLID Principles</span>
-          </div>
-        </div>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                    className="relative hidden lg:block"
+                                >
+                                    <div className="glass-card p-8 flex flex-col gap-10 overflow-hidden relative border-white/5 group">
+                                        <div className="absolute -bottom-10 -right-10 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:-rotate-12">
+                                            <Icon name="code" className="w-48 h-48 text-white" />
+                                        </div>
+                                        <div className="space-y-6 relative z-10">
+                                            <div className="flex gap-2">
+                                                <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                                                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                                                <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                                            </div>
+                                            <div className="font-mono text-sm space-y-2">
+                                                <p className="text-emerald-500">const developer = {"{"}</p>
+                                                <div className="pl-4 space-y-1">
+                                                    <p className="text-zinc-400">name: <span className="text-emerald-500/80">"Selvasekaran"</span>,</p>
+                                                    <p className="text-zinc-400">role: <span className="text-emerald-500/80">"Senior .NET Developer"</span>,</p>
+                                                    <p className="text-zinc-400">experience: <span className="text-emerald-500/80">"14 years"</span>,</p>
+                                                    <p className="text-zinc-400">focus: [<span className="text-emerald-500/80">"Microservices"</span>, <span className="text-emerald-500/80">"Cloud"</span>],</p>
+                                                </div>
+                                                <p className="text-emerald-500">{"}"};</p>
+                                            </div>
+                                        </div>
+                                        <div className="relative z-10">
+                                            <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 mb-2 font-bold">Current Stack</p>
+                                            <p className="font-mono text-xs text-zinc-400">.NET / Microservices / Angular</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </section>
 
-        <div class="skill-group observe" style="transition-delay:.2s">
-          <p class="skill-group-title">// Cloud &amp; DevOps</p>
-          <div class="skill-pills">
-            <span class="skill-pill">Microsoft Azure</span>
-            <span class="skill-pill">Azure Pipelines</span>
-            <span class="skill-pill">CI/CD</span>
-            <span class="skill-pill">TeamCity</span>
-            <span class="skill-pill">Rundeck</span>
-            <span class="skill-pill">Azure Data Pipelines</span>
-          </div>
-        </div>
+                        {/* Top Skills */}
+                        <section className="px-6 md:px-12 max-w-7xl mx-auto pb-20">
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="glass-card p-8 md:p-12 relative overflow-hidden group"
+                            >
+                                <div className="absolute -bottom-12 -right-12 opacity-[0.02] group-hover:opacity-[0.06] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:-rotate-12">
+                                    <Icon name="award" className="w-80 h-80" />
+                                </div>
+                                <div className="grid md:grid-cols-[1fr_2fr] gap-12 relative z-10">
+                                    <div>
+                                        <h3 className="text-xl font-bold mb-2 text-white">Core Competencies</h3>
+                                        <p className="text-zinc-500 text-sm leading-relaxed">
+                                            Specialized in high-performance distributed systems and modern cloud architectures.
+                                        </p>
+                                    </div>
+                                    <div className="grid sm:grid-cols-2 gap-x-12 gap-y-6">
+                                        {TOP_SKILLS.map((skill, idx) => (
+                                            <div key={skill.name} className="space-y-2">
+                                                <div className="flex justify-between text-xs font-mono">
+                                                    <span className="text-zinc-400">{skill.name}</span>
+                                                    <span className="text-primary">{skill.level}%</span>
+                                                </div>
+                                                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                                    <motion.div 
+                                                        initial={{ width: 0 }}
+                                                        whileInView={{ width: `${skill.level}%` }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ duration: 1, delay: idx * 0.1 }}
+                                                        className="h-full bg-primary"
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </section>
 
-        <div class="skill-group observe" style="transition-delay:.25s">
-          <p class="skill-group-title">// Data &amp; Messaging</p>
-          <div class="skill-pills">
-            <span class="skill-pill">SQL Server</span>
-            <span class="skill-pill">Oracle</span>
-            <span class="skill-pill">SSIS / ETL</span>
-            <span class="skill-pill">ActiveMQ</span>
-            <span class="skill-pill">RabbitMQ</span>
-          </div>
-        </div>
+                        {/* Technical Expertise */}
+                        <section id="skills" className="section-padding">
+                            <SectionHeader 
+                                title="Technical Expertise" 
+                                subtitle="A comprehensive toolkit built over a decade of professional software engineering."
+                            />
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {SKILL_CATEGORIES.map((category, idx) => (
+                                    <motion.div
+                                        key={category.title}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.1 }}
+                                        className="glass-card p-8 group hover:border-primary/30 transition-all duration-300 relative overflow-hidden"
+                                    >
+                                        <div className="absolute -bottom-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:-rotate-12">
+                                            <Icon name={category.icon} className="w-48 h-48" />
+                                        </div>
+                                        <div className="relative z-10">
+                                            <div className="flex items-center gap-4 mb-6">
+                                                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-all duration-500 shrink-0">
+                                                    <Icon name={category.icon} className="w-6 h-6" />
+                                                </div>
+                                                <h3 className="text-2xl font-bold text-white">{category.title}</h3>
+                                            </div>
+                                            <p className="text-zinc-500 text-sm mb-6 leading-relaxed max-w-md">
+                                                {category.description}
+                                            </p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {category.skills.map(skill => (
+                                                    <span key={skill} className="px-3 py-1.5 rounded-lg bg-white/5 text-xs text-zinc-400 border border-white/5 hover:border-primary/30 hover:text-primary transition-all duration-300">
+                                                        {skill}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </section>
 
-        <div class="skill-group observe" style="transition-delay:.3s">
-          <p class="skill-group-title">// Frontend, Testing &amp; Security</p>
-          <div class="skill-pills">
-            <span class="skill-pill">Angular</span>
-            <span class="skill-pill">NUnit / NMock</span>
-            <span class="skill-pill">SpecFlow</span>
-            <span class="skill-pill">Playwright</span>
-            <span class="skill-pill">OKTA / Auth0</span>
-            <span class="skill-pill">Splunk</span>
-          </div>
-        </div>
+                        {/* Experience */}
+                        <section id="experience" className="section-padding">
+                            <SectionHeader title="Professional Journey" />
+                            <div className="space-y-8">
+                                {EXPERIENCES.map((exp, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.1 }}
+                                        className="grid md:grid-cols-[200px_1fr] gap-4 md:gap-12"
+                                    >
+                                        <div className="text-zinc-500 font-mono text-sm pt-1">{exp.period}</div>
+                                        <div className="glass-card p-8 hover:bg-white/[0.02] transition-colors">
+                                            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                                                <div>
+                                                    <h3 className="text-xl font-bold text-white">{exp.role}</h3>
+                                                    <p className="text-primary font-medium">{exp.company}</p>
+                                                </div>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {exp.tags.map(tag => (
+                                                        <span key={tag} className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                                                            {tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <ul className="space-y-3">
+                                                {exp.description.map((item, i) => (
+                                                    <motion.li 
+                                                        key={i}
+                                                        initial={{ opacity: 0, x: -10 }}
+                                                        whileInView={{ opacity: 1, x: 0 }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ delay: (idx * 0.1) + (i * 0.1) + 0.2 }}
+                                                        className="flex gap-3 text-zinc-400 text-sm leading-relaxed"
+                                                    >
+                                                        <Icon name="chevron-right" className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                                                        <span dangerouslySetInnerHTML={{ __html: item.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>') }} />
+                                                    </motion.li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </section>
 
-      </div>
-    </div>
-  </section>
+                        {/* Projects */}
+                        <section id="projects" className="section-padding">
+                            <SectionHeader title="Featured Projects" />
+                            <div className="grid lg:grid-cols-2 gap-8">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    className="glass-card overflow-hidden group relative"
+                                >
+                                    <div className="absolute -bottom-10 -right-10 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:-rotate-12">
+                                        <Icon name="message-square" className="w-64 h-64" />
+                                    </div>
+                                    <div className="aspect-video bg-zinc-900 flex items-center justify-center relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        
+                                        {/* Animated Bot Mockup */}
+                                        <div className="relative z-10 w-72 h-48 glass-card p-4 flex flex-col gap-3 shadow-2xl overflow-hidden">
+                                            <div className="flex items-center gap-2 border-b border-white/5 pb-2 shrink-0">
+                                                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                                                    <Icon name="mail" className="w-3 h-3 text-primary" />
+                                                </div>
+                                                <span className="text-[10px] font-bold text-white">Budget Bot</span>
+                                            </div>
+                                            <div className="relative flex-1">
+                                                <motion.div
+                                                    animate={{ y: [0, -120, -240, 0] }}
+                                                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                                                    className="space-y-8"
+                                                >
+                                                    <div className="space-y-2">
+                                                        <div className="bg-white/5 p-2 rounded-lg text-[9px] max-w-[85%] text-zinc-400">"Spent $45 on dinner"</div>
+                                                        <div className="bg-primary/10 p-2 rounded-lg text-[9px] max-w-[85%] ml-auto text-primary text-right">"Logged: $45.00 (Food) ✅"</div>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <div className="bg-white/5 p-2 rounded-lg text-[9px] max-w-[85%] text-zinc-400">"Food spend this month?"</div>
+                                                        <div className="bg-primary/10 p-2 rounded-lg text-[9px] max-w-[85%] ml-auto text-primary text-right">"Total: $320.50 🍔"</div>
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <div className="bg-white/5 p-2 rounded-lg text-[9px] max-w-[85%] text-zinc-400">"Weekly report"</div>
+                                                        <div className="bg-primary/10 p-2 rounded-lg text-[9px] max-w-[85%] ml-auto text-primary">
+                                                            <div className="font-bold border-b border-primary/20 mb-1">📊 Summary</div>
+                                                            <div className="flex justify-between"><span>Food</span><span>$120</span></div>
+                                                            <div className="flex justify-between"><span>Travel</span><span>$45</span></div>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="p-8 relative z-10">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="text-2xl font-bold text-white">Telegram Budget Bot</h3>
+                                            <a href="https://github.com/Selvat9/n8nProjects" className="p-2 glass-card hover:bg-white/10 transition-colors group/link" title="View on GitHub">
+                                                <Icon name="github" className="w-5 h-5 text-zinc-400 group-hover/link:text-primary transition-colors" />
+                                            </a>
+                                        </div>
+                                        <p className="text-primary text-xs font-medium mb-4 italic">Natural language personal finance tracking — no app, no subscription.</p>
+                                        
+                                        <div className="grid grid-cols-2 gap-4 mb-6 text-[10px]">
+                                            <div>
+                                                <p className="text-zinc-500 uppercase tracking-widest mb-1">Stack</p>
+                                                <p className="text-zinc-300">n8n · Groq · Telegram · Google Sheets</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-zinc-500 uppercase tracking-widest mb-1">LLMs used</p>
+                                                <p className="text-zinc-300">llama-3.3-70b-versatile · compound-beta</p>
+                                            </div>
+                                        </div>
 
-  <!-- CHANGE 3 & 4: Bold verbs + role tags + draw animation -->
-  <section id="experience">
-    <div class="wrap">
-      <p class="section-tag observe">Career</p>
-      <h2 class="section-title observe">Work <em>Experience</em></h2>
-      <div class="timeline">
-        <div class="timeline-track"></div>
+                                        <div className="space-y-3 mb-0">
+                                            {[
+                                                { icon: "layout", text: "Two-flow architecture — real-time handler + scheduled automation running independently" },
+                                                { icon: "brain", text: "LLM intent classifier routes 8 command types from plain Telegram messages" },
+                                                { icon: "shield-check", text: "Edit-safe pipeline: read → merge → write-all → audit trail, no column data loss" },
+                                                { icon: "calendar", text: "Locale-resilient date parsing across 5 formats — works regardless of Google Sheets region" },
+                                                { icon: "archive", text: "Month-end pipeline: archive → clear → seed recurring → send summary, fully automated" },
+                                                { icon: "zap", text: "Zero cost — Groq free tier + self-hosted n8n + Google Sheets" }
+                                            ].map((h, i) => (
+                                                <motion.div 
+                                                    key={i} 
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    whileInView={{ opacity: 1, x: 0 }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ delay: (i * 0.1) + 0.3 }}
+                                                    className="flex gap-3 text-xs text-zinc-400 leading-relaxed"
+                                                >
+                                                    <Icon name={h.icon} className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                                                    <span>{h.text}</span>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
 
-        <div class="timeline-item observe">
-          <div class="timeline-dot"></div>
-          <p class="timeline-meta">Sep 2018 – Present</p>
-          <h3 class="timeline-role">Senior .NET Developer</h3>
-          <p class="timeline-company">Accion Labs · Dublin, OH</p>
-          <div class="role-tags">
-            <span class="role-tag accent">Current Role</span>
-            <span class="role-tag">Full-time · On-site</span>
-            <span class="role-tag">7 yrs</span>
-          </div>
-          <ul class="timeline-bullets">
-            <li><span class="verb">Architected</span> REST APIs with <strong>Ocelot API Gateway</strong> across microservices, improving system efficiency by <strong>20%</strong></li>
-            <li><span class="verb">Eliminated</span> suspicious logins by <strong>80%</strong> by integrating <strong>OKTA (Auth0)</strong> end-to-end authentication</li>
-            <li><span class="verb">Optimised</span> application performance by <strong>50%</strong> through SOLID principles and established Design Patterns</li>
-            <li><span class="verb">Designed</span> Azure Cloud microservices deployment pipelines using <strong>Azure Pipelines CI/CD</strong></li>
-            <li><span class="verb">Automated</span> PDF generation for Angular pages via <strong>Playwright</strong>, replacing manual export workflow</li>
-            <li><span class="verb">Resolved</span> all production incidents as primary contact — <strong>zero downtime</strong>, 100% accuracy</li>
-          </ul>
-        </div>
+                                <div className="space-y-8">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        className="glass-card p-8 relative overflow-hidden group"
+                                    >
+                                        <div className="absolute -bottom-8 -right-8 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:-rotate-12">
+                                            <Icon name="graduation-cap" className="w-48 h-48" />
+                                        </div>
+                                        <div className="flex items-center gap-4 mb-6 relative z-10">
+                                            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+                                                <Icon name="graduation-cap" className="w-6 h-6" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-bold text-white">Education</h3>
+                                                <p className="text-zinc-500 text-sm">B.E. Computer Science Engineering • 2009</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                    <div className="glass-card p-8 bg-primary/5 border-primary/20 relative overflow-hidden group">
+                                        <div className="absolute -bottom-10 -right-10 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-700 pointer-events-none transform group-hover:scale-110 group-hover:-rotate-12">
+                                            <Icon name="rocket" className="w-48 h-48" />
+                                        </div>
+                                        <div className="relative z-10">
+                                            <h3 className="text-lg font-bold mb-4 text-white">Let's build together</h3>
+                                            <p className="text-zinc-400 text-sm mb-6">Open to .NET development and technical architecture roles.</p>
+                                            <a href="mailto:selvat9@yahoo.com" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-black font-bold rounded-full">
+                                                Get in touch <Icon name="mail" className="w-4 h-4" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
 
-        <div class="timeline-item observe" style="transition-delay:.1s">
-          <div class="timeline-dot"></div>
-          <p class="timeline-meta">Sep 2014 – Sep 2018</p>
-          <h3 class="timeline-role">Associate</h3>
-          <p class="timeline-company">Cognizant Technology Solutions</p>
-          <div class="role-tags">
-            <span class="role-tag">Full-time</span>
-            <span class="role-tag">4 yrs</span>
-          </div>
-          <ul class="timeline-bullets">
-            <li><span class="verb">Delivered</span> all user stories at <strong>100% success rate</strong> on every milestone using MVC and SQL</li>
-            <li><span class="verb">Led</span> a <strong>6-member team</strong> building REST APIs and OOP-driven web portal components</li>
-            <li><span class="verb">Enforced</span> <strong>NUnit testing framework</strong> across the codebase, significantly cutting regression defects</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item observe" style="transition-delay:.2s">
-          <div class="timeline-dot"></div>
-          <p class="timeline-meta">Mar 2014 – Sep 2014</p>
-          <h3 class="timeline-role">Senior Software Analyst</h3>
-          <p class="timeline-company">Bally Technologies</p>
-          <div class="role-tags">
-            <span class="role-tag">Contract</span>
-            <span class="role-tag">6 mo</span>
-          </div>
-          <ul class="timeline-bullets">
-            <li><span class="verb">Reduced</span> hardware integration time by <strong>30%</strong> delivering POCs for <strong>Bill Acceptor</strong> integration</li>
-            <li><span class="verb">Increased</span> test efficiency by <strong>40%</strong> by championing <strong>SpecFlow BDD</strong> framework adoption</li>
-          </ul>
-        </div>
-
-        <div class="timeline-item observe" style="transition-delay:.3s">
-          <div class="timeline-dot"></div>
-          <p class="timeline-meta">Oct 2011 – Mar 2014</p>
-          <h3 class="timeline-role">Module Lead</h3>
-          <p class="timeline-company">Mindtree Ltd</p>
-          <div class="role-tags">
-            <span class="role-tag">Full-time</span>
-            <span class="role-tag">2 yrs 5 mo</span>
-          </div>
-          <ul class="timeline-bullets">
-            <li><span class="verb">Spearheaded</span> delivery of <strong>8 business-critical modules</strong> in C# .NET and Entity Framework</li>
-            <li><span class="verb">Coordinated</span> on-site and offshore teams for seamless CI/CD deployments via <strong>SSIS, MVC, SQL</strong></li>
-          </ul>
-        </div>
-
-        <div class="timeline-item observe" style="transition-delay:.4s">
-          <div class="timeline-dot"></div>
-          <p class="timeline-meta">Sep 2009 – Oct 2011</p>
-          <h3 class="timeline-role">Programmer Analyst</h3>
-          <p class="timeline-company">Adiva Systems Pvt Ltd · India</p>
-          <div class="role-tags">
-            <span class="role-tag">Full-time</span>
-            <span class="role-tag">2 yrs 1 mo</span>
-          </div>
-          <ul class="timeline-bullets">
-            <li><span class="verb">Built</span> core UI modules with <strong>jQuery and AJAX</strong>, improving dynamic data management responsiveness</li>
-            <li><span class="verb">Maintained</span> live and archive database integrity via <strong>RESTful APIs and SQL</strong></li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="projects" style="background:var(--surface);border-top:1px solid var(--border)">
-    <div class="wrap">
-      <p class="section-tag observe">Open Source</p>
-      <h2 class="section-title observe">Personal <em>Projects</em></h2>
-      <div class="project-feature observe">
-        <div class="project-info">
-          <div>
-            <p class="project-type">// Personal Automation · LLM Integration</p>
-            <h3 class="project-name"><span class="project-emoji">💰</span>Telegram<br>Budget Bot</h3>
-            <p class="project-desc">Natural language personal finance tracking — no app, no subscription. Send a plain message to Telegram, the bot classifies intent with an LLM and syncs to Google Sheets automatically.</p>
-            <div class="project-stack">
-              <span class="stack-chip">n8n</span>
-              <span class="stack-chip">Groq</span>
-              <span class="stack-chip">Telegram API</span>
-              <span class="stack-chip">Google Sheets</span>
-              <span class="stack-chip">llama-3.3-70b</span>
-              <span class="stack-chip">compound-beta</span>
-            </div>
-          </div>
-          <a href="https://github.com/Selvat9/n8nProjects" target="_blank" rel="noopener" class="btn btn-ghost" style="align-self:flex-start">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            View Repository
-          </a>
-        </div>
-        <div class="project-visual">
-          <div class="highlight-item observe" style="transition-delay:.1s"><span class="hi-emoji">🏗</span><p class="hi-text"><strong>Two-flow architecture</strong> — real-time handler and scheduled automation running independently</p></div>
-          <div class="highlight-item observe" style="transition-delay:.2s"><span class="hi-emoji">🧠</span><p class="hi-text"><strong>LLM intent classifier</strong> routes 8 command types from plain Telegram messages</p></div>
-          <div class="highlight-item observe" style="transition-delay:.3s"><span class="hi-emoji">🛡</span><p class="hi-text"><strong>Edit-safe pipeline:</strong> read → merge → write-all → audit trail, no column data loss</p></div>
-          <div class="highlight-item observe" style="transition-delay:.4s"><span class="hi-emoji">📅</span><p class="hi-text"><strong>Locale-resilient date parsing</strong> across 5 formats, regardless of Sheets region</p></div>
-          <div class="highlight-item observe" style="transition-delay:.5s"><span class="hi-emoji">🗃</span><p class="hi-text"><strong>Month-end pipeline:</strong> archive → clear → seed recurring → send summary, fully automated</p></div>
-          <div class="highlight-item observe" style="transition-delay:.6s"><span class="hi-emoji">🆓</span><p class="hi-text"><strong>Zero cost</strong> — Groq free tier + self-hosted n8n + Google Sheets</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact-section">
-    <div class="wrap">
-      <div class="contact-grid">
-        <div class="observe">
-          <p class="section-tag observe" style="margin-bottom:12px">Contact</p>
-          <h2 style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:300;line-height:1.1;margin-bottom:16px">Let&#x2019;s <em style="font-style:italic;font-weight:600;color:var(--teal)">connect</em></h2>
-          <p style="font-size:.95rem;color:var(--muted);line-height:1.7">Open to senior .NET engineering roles, cloud architecture discussions, and interesting automation projects. Reach out via LinkedIn or GitHub.</p>
-        </div>
-        <div class="contact-links observe" style="transition-delay:.15s">
-          <a href="https://www.linkedin.com/in/selvat9/" target="_blank" rel="noopener" class="contact-link">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            linkedin.com/in/selvat9
-            <span>LinkedIn →</span>
-          </a>
-          <a href="https://github.com/Selvat9" target="_blank" rel="noopener" class="contact-link">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            github.com/Selvat9
-            <span>GitHub →</span>
-          </a>
-          <a href="mailto:selvat9@yahoo.com" class="contact-link">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Email me
-            <span>Direct →</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="wrap">
-      <p>Built with pure HTML/CSS/JS · <span>Selvasekaran Periathambi</span> · 2025</p>
-    </div>
-  </footer>
-
-  <script>
-    /* 1. General reveal */
-    const revealObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.observe,.stat,.skill-group,.timeline-item,.section-tag,.section-title,.project-feature,.highlight-item')
-      .forEach(el => revealObs.observe(el));
-
-    /* 2. Badge stagger */
-    document.querySelectorAll('.hero-badges .badge').forEach((b, i) => {
-      b.style.animationDelay = `${0.7 + i * 0.08}s`;
-    });
-
-    /* 3. Skill pill stagger per group */
-    document.querySelectorAll('.skill-group').forEach(group => {
-      const pills = group.querySelectorAll('.skill-pill');
-      const o = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            pills.forEach((p, i) => { p.style.animationDelay = `${0.15 + i * 0.045}s`; });
-            o.disconnect();
-          }
-        });
-      }, { threshold: 0.3 });
-      o.observe(group);
-    });
-
-    /* 4. Stats count-up */
-    function countUp(el, target, suffix, dur = 900) {
-      const start = performance.now();
-      const tick = now => {
-        const t = Math.min((now - start) / dur, 1);
-        const ease = 1 - Math.pow(1 - t, 3);
-        el.textContent = Math.round(ease * target) + suffix;
-        if (t < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }
-    const statsObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          document.querySelectorAll('.stat-num').forEach((el, i) => {
-            setTimeout(() => {
-              el.closest('.stat').classList.add('visible');
-              countUp(el, +el.dataset.target, el.dataset.suffix || '');
-            }, i * 120);
-          });
-          statsObs.disconnect();
+                    <footer className="border-t border-white/5 py-12 px-6 text-center text-zinc-500 text-sm">
+                        © 2026 Selvasekaran Periathambi.
+                    </footer>
+                </div>
+            );
         }
-      });
-    }, { threshold: 0.5 });
-    const bar = document.querySelector('.stats-bar');
-    if (bar) statsObs.observe(bar);
 
-    /* 5. Timeline track draw */
-    const trackObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelector('.timeline-track')?.classList.add('animate');
-          trackObs.disconnect();
-        }
-      });
-    }, { threshold: 0.08 });
-    const tl = document.querySelector('.timeline');
-    if (tl) trackObs.observe(tl);
-
-    /* 6. Active nav */
-    const navObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          document.querySelectorAll('.nav-links a').forEach(l => l.style.color = '');
-          const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-          if (a) a.style.color = 'var(--teal)';
-        }
-      });
-    }, { threshold: 0.4 });
-    document.querySelectorAll('section[id]').forEach(s => navObs.observe(s));
-  </script>
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
